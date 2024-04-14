@@ -1,12 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 ///This class defines light theme and dark theme
 ///Here we used flex color scheme
 class Themes {
   static ThemeData get theme => FlexThemeData.light(
-        scheme: FlexScheme.brandBlue,
+        scheme: FlexScheme.flutterDash,
         surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
         blendLevel: 20,
         appBarOpacity: 0.95,
@@ -32,12 +33,12 @@ class Themes {
         visualDensity: FlexColorScheme.comfortablePlatformDensity,
         useMaterial3: true,
 
-        /// fontFamily: GoogleFonts.getFont('Lato').fontFamily,
+        fontFamily: GoogleFonts.poppins().fontFamily,
 
         ///
       );
-  static ThemeData get darkTheme => FlexThemeData.dark(
-        scheme: FlexScheme.brandBlue,
+  static ThemeData get darkTheme => FlexThemeData.light(
+        scheme: FlexScheme.barossa,
         surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
         blendLevel: 15,
         appBarStyle: FlexAppBarStyle.background,
@@ -61,7 +62,7 @@ class Themes {
         visualDensity: FlexColorScheme.comfortablePlatformDensity,
         useMaterial3: true,
         // To use the playground font, add GoogleFonts package and uncomment
-        // fontFamily: GoogleFonts.getFont('Lato').fontFamily,
+        fontFamily: GoogleFonts.poppins().fontFamily,
       );
 // If you do not have a themeMode switch, uncomment this line
 // to let the device system mode control the theme mode:

@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myrik_intern_task/features/home/pod/home_pods.dart';
+import 'package:myrik_intern_task/features/home/home.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
@@ -19,7 +19,7 @@ class SpeechRecognitionRepository {
   }
   final ProviderRef<Object?> _ref;
   final SpeechToText _speechToText = SpeechToText();
-  bool _speechEnabled = false;
+
   String _lastWords = '';
   final int maxRecentSearches = 5;
   List<String> recentSearches = [];
@@ -47,11 +47,22 @@ class SpeechRecognitionRepository {
     await Permission.microphone.request();
   }
 
-  void _initSpeech() async {
-    _speechEnabled = await _speechToText.initialize();
+  Future<bool> _initSpeech() async {
+    print("INIT SPEECH");
+    await requestForMicrophonePermission();
+    print("PERMISSION REQUESTED");
+    listenForPermission();
+
+    bool status = await _speechToText.initialize();
+    _ref.watch(speechEnabledPod.notifier).state = status;
+    return status;
   }
 
-  void _startListening() async {
+  void startListening(searchController) async {
+    if (!_ref.watch(speechEnabledPod.notifier).state) {
+      bool isAllowed = await _initSpeech();
+      if (!isAllowed) return;
+    }
     await _speechToText.listen(
       onResult: _onSpeechResult,
       listenFor: const Duration(seconds: 30),
@@ -60,16 +71,18 @@ class SpeechRecognitionRepository {
       partialResults: false,
       listenMode: ListenMode.confirmation,
     );
+    print(_lastWords);
+    _ref.watch(textRecognizedPod.notifier).state = _lastWords;
+    _ref.watch(searchController.notifier).state.text = _lastWords;
     // _giveFocus();
   }
 
-  void _stopListening() async {
+  void stopListening() async {
     await _speechToText.stop();
   }
 
   void _onSpeechResult(SpeechRecognitionResult result) {
     _lastWords = result.recognizedWords;
-    _ref.watch(searchController.notifier).state.text = _lastWords;
   }
 
   Future<void> _loadRecentSearches() async {
