@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:platform_info/platform_info.dart';
 import 'package:myrik_intern_task/core/local_storage/app_storage_pod.dart';
 import 'package:myrik_intern_task/init.dart';
 import 'package:myrik_intern_task/shared/riverpod_ext/riverpod_observer.dart';
+import 'package:platform_info/platform_info.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 // coverage:ignore-file
@@ -18,7 +19,7 @@ import 'package:talker_flutter/talker_flutter.dart';
 
 final talker = TalkerFlutter.init(
   settings: TalkerSettings(
-    maxHistoryItems: null,
+    maxHistoryItems: 100,
     useConsoleLogs: !kReleaseMode,
     enabled: !kReleaseMode,
   ),

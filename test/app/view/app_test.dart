@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:myrik_intern_task/core/local_storage/app_storage_pod.dart';
-import 'package:myrik_intern_task/features/counter/counter.dart';
+import 'package:myrik_intern_task/features/home/view/home_page.dart';
 import 'package:myrik_intern_task/shared/pods/internet_checker_pod.dart';
 
 import '../../helpers/pump_app.dart';
@@ -27,10 +27,10 @@ Future<void> main() async {
             enableInternetCheckerPod.overrideWithValue(false),
             appBoxProvider.overrideWithValue(appBox),
           ],
-          child: const CounterPage(),
+          child: const HomePage(),
         ),
       );
-      expect(find.byType(CounterPage), findsOneWidget);
+      expect(find.byType(HomePage), findsOneWidget);
     });
   });
 }
